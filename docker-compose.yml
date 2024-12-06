@@ -14,6 +14,7 @@ services:
       - "8080:8080"
     environment:
       - PYTHONPATH=/local_mount
+      - BROWSER_SERVICE_URL=http://browser-service:7468
     volumes:
       - ./:/local_mount
       - eidolon_data:/data/eidolon/files
