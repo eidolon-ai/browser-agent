@@ -1,7 +1,7 @@
 DOCKER_REPO_NAME ?= browser-agent
 VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $$2}')
 WEBUI_TAG := 1.0.67
-BROWSER_TAG := 0.1.2
+BROWSER_TAG := 0.1.3
 REQUIRED_ENVS := ANTHROPIC_API_KEY
 NAMESPACE ?= default
 
