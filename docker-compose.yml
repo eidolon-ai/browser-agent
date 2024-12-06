@@ -37,7 +37,7 @@ services:
       - agent-server
 
   browser-service:
-    image: eidolonai/browser_service:latest
+    image: eidolonai/browser_service:0.1.2
     ports:
       - "7468:7468"
 

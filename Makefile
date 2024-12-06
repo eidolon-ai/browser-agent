@@ -1,6 +1,7 @@
 DOCKER_REPO_NAME ?= browser-agent
 VERSION := $(shell grep -m 1 '^version = ' pyproject.toml | awk -F '"' '{print $$2}')
 WEBUI_TAG := 1.0.67
+BROWSER_TAG := 0.1.2
 REQUIRED_ENVS := ANTHROPIC_API_KEY
 NAMESPACE ?= default
 
@@ -67,7 +68,8 @@ docker-compose.yml: Makefile
 	@echo "Updated docker-compose.yml with image ${DOCKER_REPO_NAME}:latest"
 	@sed -e 's|image: eidolonai/webui:.*|image: eidolonai/webui:$(WEBUI_TAG)|' docker-compose.yml > docker-compose.yml.tmp && mv docker-compose.yml.tmp docker-compose.yml
 	@echo "Updated docker-compose.yml with image eidolonai/webui:$(WEBUI_TAG)"
-	
+	@sed -e 's|image: eidolonai/browser_service:.*|image: eidolonai/browser_service:$(BROWSER_TAG)|' docker-compose.yml > docker-compose.yml.tmp && mv docker-compose.yml.tmp docker-compose.yml
+	@echo "Updated docker-compose.yml with image eidolonai/browser_service:$(BROWSER_TAG)"
 	
 
 update:
@@ -76,6 +78,8 @@ update:
 
 	@new_version=$$(curl -s https://raw.githubusercontent.com/eidolon-ai/eidolon/refs/heads/main/webui/package.json | grep -o '"version": "[^"]*"' | cut -d'"' -f4); \
 	sed -e 's/^WEBUI_TAG := .*/WEBUI_TAG := '$$new_version'/' Makefile > Makefile.tmp && mv Makefile.tmp Makefile;
+	@new_version=$$(curl -s https://raw.githubusercontent.com/eidolon-ai/eidolon/refs/heads/main/browser-service/pyproject.toml | grep -o 'version = "[^"]*"' | cut -d'"' -f2 | awk '{print $1}' | head -n1); \
+	sed -e 's/^BROWSER_TAG := .*/BROWSER_TAG := '$$new_version'/' Makefile > Makefile.tmp && mv Makefile.tmp Makefile;
 	$(MAKE) docker-compose.yml
 	$(MAKE) k8s/webui.yaml
 
