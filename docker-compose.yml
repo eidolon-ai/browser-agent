@@ -1,6 +1,6 @@
 services:
   agent-server:
-    image: my-eidolon-project:latest
+    image: browser-agent:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -21,9 +21,10 @@ services:
     depends_on:
       - mongo
       - chromadb
+      - browser-service
 
   webui:
-    image: eidolonai/webui:latest
+    image: eidolonai/webui:1.0.67
     environment:
       - NEXTAUTH_SECRET=secret
       - EIDOLON_SERVER=http://agent-server:8080
@@ -34,6 +35,11 @@ services:
       - "3000:3000"
     depends_on:
       - agent-server
+
+  browser-service:
+    image: eidolonai/browser_service:latest
+    ports:
+      - "7468:7468"
 
   mongo:
     image: mongo
