@@ -13,6 +13,8 @@ spec:
     For example, if you are unable to find an element, search for elements by their attributes, such as class or id as a
     separate tool call. You will always have an opportunity to retry the tool call if it fails.
     
+    If you are unsure of the DOM needed to execute a javascript command, get the current page content first before executing javascript.
+    
     Continue using your tools to explore the web until you find the information requested to answer the user's questions.
     
     Think carefully, and answer user questions concisely.
